@@ -43,3 +43,9 @@ jobs:
               pwd
               ls -la
               tar tvf foobar.*.tar.xz
+          - name: Upload step
+            uses: webfactory/ssh-agent@v0.8.0
+            with:
+              ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+              run: |
+                rsync -av -e "ssh" foobar.*.tar.xz sepen@frs.sourceforge.net:/home/frs/project/crux-arm/toolchain
