@@ -13,15 +13,10 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-          - name: Clone repo
+          - name: Clone
             uses: actions/checkout@v4
 
-          - name: Previous step
-            run: |
-              pwd
-              ls -la
-
-          - name: Docker step
+          - name: Build
             uses: addnab/docker-run-action@v3
             with:
               image: sepen/crux:3.7
@@ -36,19 +31,20 @@ jobs:
                 echo "bar" > /opt/foobar/foo/bar.txt
                 echo "foo" > /opt/foobar/bar/foo.txt
                 datetime=$(date +'%Y%m%d%H%M')
-                tar cvJf foobar.${datetime}.tar.xz /opt/foobar
+                mkdir -p release
+                tar cvJf upload/foobar.${datetime}.tar.xz /opt/foobar
 
-          - name: Last step
+          - name: Verify
             run: |
               pwd
               ls -la
-              tar tvf foobar.*.tar.xz
+              tar tvf upload/foobar.*.tar.xz
           
-          - name: Upload step
+          - name: Release
             uses: burnett01/rsync-deployments@6.0.0
             with:
-              switches: -av
-              path: foobar.*.tar.xz
+              switches: -avz
+              path: release/
               remote_path: /home/frs/project/crux-arm/toolchain
               remote_host: frs.sourceforge.net
               remote_user: sepen
