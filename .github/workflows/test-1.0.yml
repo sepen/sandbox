@@ -31,13 +31,11 @@ jobs:
               options: -v ${{ github.workspace }}:/opt/workspace
               run: |
                 cd /opt/workspace
-                pwd
-                mkdir foo
-                echo bar > foo/bar
-                mkdir bar
-                echo foo > bar/foo
-                tar cvJf foobar.tar.xz /opt/workspace
-                ls -la
+                mkdir -p /opt/foobar/foo
+                mkdir -p /opt/foobar/bar
+                echo "bar" > /opt/foobar/foo/bar.txt
+                echo "foo" > /opy/foobar/bar/foo.txt
+                tar cvJf foobar.tar.xz /opt/foobar
 
           - name: Last step
             run: |
