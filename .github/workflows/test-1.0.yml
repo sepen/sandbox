@@ -32,4 +32,17 @@ jobs:
               run: |
                 cd /opt/workspace
                 pwd
+                mkdir foo
+                echo bar > foo/bar
+                mkdir bar
+                echo foo > bar/foo
                 ls -la
+
+          - name: Last step
+            run: |
+              pwd
+              ls -la
+              mkdir /opt/workspace
+              mv foo bar /opt/workspace
+              tar cvJf foobar.tar.xz /opt/workspace
+              tar tvf foobar.tar.xz
