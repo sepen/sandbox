@@ -34,11 +34,12 @@ jobs:
                 mkdir -p /opt/foobar/foo
                 mkdir -p /opt/foobar/bar
                 echo "bar" > /opt/foobar/foo/bar.txt
-                echo "foo" > /opy/foobar/bar/foo.txt
-                tar cvJf foobar.tar.xz /opt/foobar
+                echo "foo" > /opt/foobar/bar/foo.txt
+                datetime=$(date +'%Y%m%d%H%M')
+                tar cvJf foobar.${datetime}.tar.xz /opt/foobar
 
           - name: Last step
             run: |
               pwd
               ls -la
-              tar tvf foobar.tar.xz
+              tar tvf foobar.*.tar.xz
