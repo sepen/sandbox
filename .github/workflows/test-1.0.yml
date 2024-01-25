@@ -43,9 +43,13 @@ jobs:
               pwd
               ls -la
               tar tvf foobar.*.tar.xz
+          
           - name: Upload step
-            uses: webfactory/ssh-agent@v0.8.0
+            uses: burnett01/rsync-deployments@6.0.0
             with:
-              ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-              run: |
-                rsync -av -e "ssh" foobar.*.tar.xz sepen@frs.sourceforge.net:/home/frs/project/crux-arm/toolchain
+              switches: -av
+              path: foobar.*.tar.xz
+              remote_path: /home/frs/project/crux-arm/toolchain
+              remote_host: frs.sourceforge.net
+              remote_user: sepen
+              remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
