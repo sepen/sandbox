@@ -32,20 +32,20 @@ jobs:
                 echo "foo" > /opt/foobar/bar/foo.txt
                 datetime=$(date +'%Y%m%d%H%M')
                 mkdir -p release
-                tar cvJf upload/foobar.${datetime}.tar.xz /opt/foobar
+                tar cvJf release/foobar.${datetime}.tar.xz /opt/foobar
 
           - name: Verify
             run: |
               pwd
               ls -la
-              tar tvf upload/foobar.*.tar.xz
+              tar tvf release/foobar.*.tar.xz
           
           - name: Release
             uses: burnett01/rsync-deployments@6.0.0
             with:
               switches: -avz
               path: release/
-              remote_path: /home/frs/project/crux-arm/toolchain
+              remote_path: /home/frs/project/crux-arm/toolchain/
               remote_host: frs.sourceforge.net
               remote_user: sepen
               remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
