@@ -1,0 +1,35 @@
+name: test-1.0
+
+on:
+  push:
+    branches:
+      - 'main'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+    test:
+        name: Test 1.0
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Clone repo
+            uses: actions/checkout@v4
+
+          - name: Previous step
+            run: |
+              pwd
+              ls -la
+
+          - name: Docker step
+            uses: addnab/docker-run-action@v3
+            with:
+              image: sepen/crux:3.7
+              # Create a bind mount from the current workspace to /opt/workspace
+              # github.workspace includes all of the code checked out from our current repo
+              # so anything done to this code will then be available to any following step
+              options: -v ${{ github.workspace }}:/opt/workspace
+              run: |
+                cd /opt/workspace
+                pwd
+                ls -la
