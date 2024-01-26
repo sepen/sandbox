@@ -16,36 +16,54 @@ jobs:
           - name: Clone
             uses: actions/checkout@v4
 
-          - name: Build
+          - name: Step1
             uses: addnab/docker-run-action@v3
             with:
               image: sepen/crux:3.7
-              # Create a bind mount from the current workspace to /opt/workspace
-              # github.workspace includes all of the code checked out from our current repo
-              # so anything done to this code will then be available to any following step
               options: -v ${{ github.workspace }}:/opt/workspace
               run: |
-                cd /opt/workspace
-                mkdir -p /opt/foobar/foo
-                mkdir -p /opt/foobar/bar
-                echo "bar" > /opt/foobar/foo/bar.txt
-                echo "foo" > /opt/foobar/bar/foo.txt
-                datetime=$(date +'%Y%m%d%H%M')
-                mkdir -p release
-                tar cvJf release/foobar.${datetime}.tar.xz /opt/foobar
+                ls -la
+                make step1
 
-          - name: Verify
-            run: |
-              pwd
-              ls -la
-              tar tvf release/foobar.*.tar.xz
-          
-          - name: Release
-            uses: burnett01/rsync-deployments@6.0.0
+          - name: Step2
+            uses: addnab/docker-run-action@v3
             with:
-              switches: -avz
-              path: release/
-              remote_path: /home/frs/project/crux-arm/toolchain/
-              remote_host: frs.sourceforge.net
-              remote_user: sepen
-              remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+              image: sepen/crux:3.7
+              options: -v ${{ github.workspace }}:/opt/workspace
+              run: |
+                ls -la
+                make step2
+
+          #- name: Build
+          #  uses: addnab/docker-run-action@v3
+          #  with:
+          #    image: sepen/crux:3.7
+          #    # Create a bind mount from the current workspace to /opt/workspace
+          #    # github.workspace includes all of the code checked out from our current repo
+          #    # so anything done to this code will then be available to any following step
+          #    options: -v ${{ github.workspace }}:/opt/workspace
+          #    run: |
+          #      cd /opt/workspace
+          #      mkdir -p /opt/foobar/foo
+          #      mkdir -p /opt/foobar/bar
+          #      echo "bar" > /opt/foobar/foo/bar.txt
+          #      echo "foo" > /opt/foobar/bar/foo.txt
+          #      datetime=$(date +'%Y%m%d%H%M')
+          #      mkdir -p release
+          #      tar cvJf release/foobar.${datetime}.tar.xz /opt/foobar
+
+          #- name: Verify
+          #  run: |
+          #    pwd
+          #    ls -la
+          #    tar tvf release/foobar.*.tar.xz
+          
+          #- name: Release
+          #  uses: burnett01/rsync-deployments@6.0.0
+          #  with:
+          #    switches: -avz
+          #    path: release/
+          #    remote_path: /home/frs/project/crux-arm/toolchain/
+          #    remote_host: frs.sourceforge.net
+          #    remote_user: sepen
+          #    remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
