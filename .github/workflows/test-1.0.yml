@@ -22,6 +22,7 @@ jobs:
               image: sepen/crux:3.7
               options: -v ${{ github.workspace }}:/opt/workspace
               run: |
+                cd /opt/workspace
                 ls -la
                 make step1
 
@@ -31,6 +32,7 @@ jobs:
               image: sepen/crux:3.7
               options: -v ${{ github.workspace }}:/opt/workspace
               run: |
+                cd /opt/workspace
                 ls -la
                 make step2
 
