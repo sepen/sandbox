@@ -20,14 +20,14 @@ jobs:
             run: |
               echo "github.workspace: ${{ github.workspace }}"
               pwd
-              mkdir $HOME/install
-              ls -la $HOME
+              mkdir /tmp/arm-linux-gnu
+              ls -la /tmp
 
           - name: Step1
             uses: addnab/docker-run-action@v3
             with:
               image: sepen/crux:3.7
-              options: -v ${{ github.workspace }}:/opt/workspace -v ${{ HOME }}/install:/opt/arm-linux-gnu
+              options: -v ${{ github.workspace }}:/opt/workspace -v /tmp/arm-linux-gnu:/opt/arm-linux-gnu
               run: |
                 cd /opt/workspace
                 make step1
@@ -36,7 +36,7 @@ jobs:
             uses: addnab/docker-run-action@v3
             with:
               image: sepen/crux:3.7
-              options: -v ${{ github.workspace }}:/opt/workspace -v ${{ HOME }}/install:/opt/arm-linux-gnu
+              options: -v ${{ github.workspace }}:/opt/workspace -v /tmp/arm-linux-gnu:/opt/arm-linux-gnu
               run: |
                 cd /opt/workspace
                 make step2
