@@ -1,13 +1,20 @@
-VAR1 = /opt/arm-linux-gnu
+MYPATH = /opt/arm-linux-gnu
 
-all: stage1 stage2
+all: step1 step2
 
-$(VAR1)/foo.txt:
-  date > $(VAR1)/foo.txt
+$(MYPATH):
+  mkdir -p $(MYPATH)
 
-stage1: $(VAR1)/foo.txt
+# ----- step 1 ------
 
-$(VAR1)/bar.txt:
-  date > $(VAR1)/bar.txt
+$(MYPATH)/step1.txt: $(MYPATH)
+  date > $(MYPATH)/step1.txt
 
-stage2: stage1 $(VAR1)/bar.txt
+step1: $(MYPATH)/step1.txt
+
+# ----- step 2 ------
+
+$(MYPATH)/step2.txt: $(MYPATH)
+  date > $(MYPATH)/step2.txt
+
+step2: step1 $(MYPATH)/step2.txt
