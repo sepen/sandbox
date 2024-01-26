@@ -1,4 +1,4 @@
-MYPATH = /opt/arm-linux-gnu
+MYPATH = $(shell pwd)/work
 
 all: step1 step2
 
