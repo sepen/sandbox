@@ -16,6 +16,13 @@ jobs:
           - name: Clone
             uses: actions/checkout@v4
 
+          - name: Step0
+            run: |
+              ls -la
+              ls -la /tmp
+              ls -la /mnt
+              ls -la /opt
+
           - name: Step1
             uses: addnab/docker-run-action@v3
             with:
@@ -23,7 +30,6 @@ jobs:
               options: -v ${{ github.workspace }}:/opt/workspace
               run: |
                 cd /opt/workspace
-                ls -la
                 make step1
 
           - name: Step2
@@ -33,7 +39,6 @@ jobs:
               options: -v ${{ github.workspace }}:/opt/workspace
               run: |
                 cd /opt/workspace
-                ls -la
                 make step2
 
           #- name: Build
