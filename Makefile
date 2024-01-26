@@ -1,4 +1,4 @@
-MYPATH = $(shell pwd)/work
+MYPATH = /opt/mypath
 
 all: step1 step2
 
